@@ -3,36 +3,35 @@
   build-backend = "setuptools.build_meta"
 
 [project]
-requires-python = ">=3.10"
-name = "sunbot"
-readme = "README.md"
-description = "Sun activity and propagation bot for telegram."
-version = "0.0.1"
-license = {file = "LICENSE.md"}
+  requires-python = ">=3.10"
+  name = "sunbot"
+  readme = "README.md"
+  description = "Sun activity and propagation bot for telegram."
+  version = "0.0.1"
+  license = {file = "LICENSE.md"}
 
-authors = [
-  { name = "Fred C." },
-]
-classifiers = [
-  "Intended Audience :: End Users/Desktop",
-  "Intended Audience :: Telecommunications",
-  "License :: OSI Approved :: BSD License",
-  "Operating System :: MacOS",
-  "Operating System :: POSIX :: Linux",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-]
-dependencies = [
-  "aiofiles",
-  "python-telegram-bot >= 20",
-]
+  authors = [
+    { name = "Fred C." },
+  ]
+  classifiers = [
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Telecommunications",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+  ]
+  dependencies = [
+    "aiofiles",
+    "python-telegram-bot >= 20",
+  ]
 
 [project.urls]
   Documentation = "https://github.com/0x9900/sunbot/"
   Source = "https://github.com/0x9900/sunbot"
   Tracker = "https://github.com/0x9900/sunbot/issues"
-
 
 [project.scripts]
   sunbot = "sunbot:main"

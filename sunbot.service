@@ -6,7 +6,7 @@ After=network.target
 ExecStartPre=/bin/sleep 1
 Type=simple
 User=fred
-Group=fred
+Group=staff
 Restart=always
 # Modify for different location of Python3 or location of files
 ExecStart=/usr/local/bin/sunbot

@@ -12,6 +12,8 @@ import pathlib
 import time
 import traceback
 
+from urllib.parse import urljoin
+
 import aiofiles
 import httpx
 
@@ -49,7 +51,7 @@ NOAA_URL = 'https://services.swpc.noaa.gov/'
 RESOURCES = {
   "/dxcc": [
     "https://bsdworld.org/dxcc-stats.jpg",
-    "Daily total number of spots for each continents"
+    "Daily total number of spots for each continents."
   ],
   "/aindex": [
     "https://bsdworld.org/aindex.jpg",
@@ -61,7 +63,7 @@ RESOURCES = {
   ],
   "/forecast": [
     "https://bsdworld.org/kpi-forecast.jpg",
-    "Recently observed and a three day forecast of space weather conditions"
+    "Recently observed and a three day forecast of space weather conditions."
   ],
   "/enlil": [
     "https://bsdworld.org/enlil.mp4",
@@ -69,7 +71,7 @@ RESOURCES = {
   ],
   "/flux": [
     "https://bsdworld.org/flux.jpg",
-    "Solar radio flux at 10.7 cm (2800 MHz) is an indicator of solar activity"
+    "Solar radio flux at 10.7 cm (2800 MHz) is an indicator of solar activity."
   ],
   "/xray": [
     "https://bsdworld.org/xray_flux.jpg",
@@ -95,7 +97,7 @@ RESOURCES = {
   ],
   "/modes": [
     "https://bsdworld.org/modes.jpg",
-    "Daily total activity per mode"
+    "Daily total activity per mode."
   ],
 }
 
@@ -147,6 +149,25 @@ async def load_cache_file(url: str, filename: str, timeout: Optional[int]=3600):
           await fdout.write(buffer)
 
 
+async def text_forecast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  url = urljoin(NOAA_URL, '/text/discussion.txt')
+  cache_file = '/tmp/discussion.txt'
+  await load_cache_file(url, cache_file, 3600*4)
+  forecast = []
+  flag = 0
+  async with aiofiles.open(cache_file, mode='r', encoding="utf-8") as fdin:
+    async for line in fdin:
+      line = line.strip()
+      if line.startswith('.Forecast'):
+        flag = 1
+        continue
+      if flag and not line:
+        break
+      if flag:
+        forecast.append(line)
+  await update.message.reply_text(' '.join(forecast))
+
+
 async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Send the flux graph"""
   message = update.effective_message
@@ -178,9 +199,9 @@ async def bands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   await update.message.reply_text("Propagation: Choose a continent", reply_markup=reply_markup)
   return START_ROUTES
 
-async def alerts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def alerts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
   """download and send the NOAA alerts"""
-  url = NOAA_URL + "text/wwv.txt"
+  url = urljoin(NOAA_URL, "/text/wwv.txt")
   cache_file = "/tmp/alerts.json"
   await load_cache_file(url, cache_file)
   alert = []
@@ -288,9 +309,10 @@ async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
   """Send a message when the command /help is issued."""
   help = ["*Group commands:*\n"]
   commands = {k: v[1] for k, v in RESOURCES.items()}
-  commands['/help'] = 'This message'
-  commands['/bands'] = 'Propagation by band and continent'
-  commands['/alerts'] = 'Solar activity alerts'
+  commands['/help'] = 'This message.'
+  commands['/bands'] = 'Propagation by band and continent.'
+  commands['/alerts'] = 'Solar activity alerts.'
+  commands['/forecast'] = 'Forecast Discussion.'
 
   for cmd, label in sorted(commands.items()):
     help.append(f"{cmd} : {label}")
@@ -336,6 +358,7 @@ def main() -> None:
       CommandHandler("band", bands),
       CommandHandler("bands", bands),
       CommandHandler("alerts", alerts),
+      CommandHandler("predictions", text_forecast),
     ],
     states={
       START_ROUTES: [

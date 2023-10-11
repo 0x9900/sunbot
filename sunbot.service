@@ -1,0 +1,15 @@
+[Unit]
+Description=Telegram Sun Activity Bot
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sleep 1
+Type=simple
+User=fred
+Group=fred
+Restart=always
+# Modify for different location of Python3 or location of files
+ExecStart=/usr/local/bin/sunbot
+
+[Install]
+WantedBy=multi-user.target

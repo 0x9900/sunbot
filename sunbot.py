@@ -357,8 +357,13 @@ def main() -> None:
       CommandHandler("start", start),
       CommandHandler("band", bands),
       CommandHandler("bands", bands),
+      CommandHandler("alert", alerts),
       CommandHandler("alerts", alerts),
+      CommandHandler("prediction", text_forecast),
       CommandHandler("predictions", text_forecast),
+      CommandHandler("help", help_handler),
+      CommandHandler("command", help_handler),
+      CommandHandler("commands", help_handler),
     ],
     states={
       START_ROUTES: [
@@ -379,7 +384,6 @@ def main() -> None:
   application.add_handler(conv_handler)
   for command in RESOURCES.keys():
     application.add_handler(CommandHandler(command.lstrip('/'), send_graph))
-  application.add_handler(CommandHandler("help", help_handler))
 
   # Run the bot until the user presses Ctrl-C
   application.run_polling(allowed_updates=Update.ALL_TYPES)

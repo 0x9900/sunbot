@@ -1,13 +1,15 @@
 # SunBot
 Sun activity and propagation bot for telegram.
 
-This Telegram bot gives ham radio operators information about solar weather, propagation, and amateur radio activity on HF bands.
+This Telegram bot informs ham radio operators about solar weather, propagation, and amateur radio
+activity on HF bands.
 
-You can subscribe to this bot through the [Telegram](https://telegram.org) app on your phone, tablet, or computer.
-The bot name is [@SunFluxBot](http://t.me/SunFluxBot).
-
-You can also checkout more Sun and Radio DXC activity on [bsdworld.org](https://bsdworld.org/).
+If your ham club uses a [Telegram](https://telegram.org) group, you can offer this service to your
+members by inviting the bot [@SunFluxBot](http://t.me/SunFluxBot) into your group. Then, send the
+command /help to the bot and follow the instructions.
 
 ![Example](misc/SunBot.png)
 
 For more information check [0x9900's blog](https://0x9900.com/telegram-propagation-bot/) post
+
+73 and happy DXing.

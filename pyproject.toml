@@ -35,3 +35,6 @@
 
 [project.scripts]
   sunbot = "sunbot:main"
+
+[tool.setuptools]
+  package-dir = {"" = "."}

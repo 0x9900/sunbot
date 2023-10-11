@@ -34,5 +34,5 @@ dependencies = [
   Tracker = "https://github.com/0x9900/sunbot/issues"
 
 
-[sunbot.scripts]
-sunbot = "sunbot:main"
+[project.scripts]
+  sunbot = "sunbot:main"

@@ -102,7 +102,7 @@ class Config:
 
 def load_config():
   for file_name in CONFIG_FILES:
-    path = pathlib.Path(file_name)
+    path = pathlib.Path(file_name).expanduser()
     if path.exists():
       break
   else:

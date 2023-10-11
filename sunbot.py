@@ -52,7 +52,7 @@ RESOURCES = {
     "Daily total number of spots for each continents"
   ],
   "/aindex": [
-    "https://bsdworld.org/xaindex.jpg",
+    "https://bsdworld.org/aindex.jpg",
     "The A index show the fluctuations in the magnetic field."
   ],
   "/kpindex": [
@@ -93,6 +93,10 @@ RESOURCES = {
     "https://bsdworld.org/muf.mp4",
     "Show the maximum usable frequency."
   ],
+  "/modes": [
+    "https://bsdworld.org/modes.jpg",
+    "Daily total activity per mode"
+  ],
 }
 
 
@@ -100,7 +104,8 @@ class Config:
   token: str = None
   developer_id: int | None = None
 
-def load_config():
+def load_config() -> None:
+  """load token and developer_id from the config file"""
   for file_name in CONFIG_FILES:
     path = pathlib.Path(file_name).expanduser()
     if path.exists():

@@ -50,7 +50,7 @@ NOAA_URL = 'https://services.swpc.noaa.gov/'
 
 RESOURCES = {
   "/dxcc": [
-    "https://bsdworld.org/dxcc-stats.jpg",
+    "https://bsdworld.org/dxcc-week-stats.jpg",
     "Daily total number of spots for each continents."
   ],
   "/aindex": [
@@ -354,16 +354,8 @@ def main() -> None:
 
   conv_handler = ConversationHandler(
     entry_points=[
-      CommandHandler("start", start),
       CommandHandler("band", bands),
       CommandHandler("bands", bands),
-      CommandHandler("alert", alerts),
-      CommandHandler("alerts", alerts),
-      CommandHandler("prediction", text_forecast),
-      CommandHandler("predictions", text_forecast),
-      CommandHandler("help", help_handler),
-      CommandHandler("command", help_handler),
-      CommandHandler("commands", help_handler),
     ],
     states={
       START_ROUTES: [
@@ -382,6 +374,16 @@ def main() -> None:
 
   # Add ConversationHandler to application that will be used for handling updates
   application.add_handler(conv_handler)
+
+  # Add commands to the application
+  application.add_handler(CommandHandler("alert", alerts))
+  application.add_handler(CommandHandler("alerts", alerts))
+  application.add_handler(CommandHandler("command", help_handler))
+  application.add_handler(CommandHandler("commands", help_handler))
+  application.add_handler(CommandHandler("help", help_handler))
+  application.add_handler(CommandHandler("prediction", text_forecast))
+  application.add_handler(CommandHandler("predictions", text_forecast))
+  application.add_handler(CommandHandler("start", start))
   for command in RESOURCES.keys():
     application.add_handler(CommandHandler(command.lstrip('/'), send_graph))
 

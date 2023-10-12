@@ -3,7 +3,7 @@
   build-backend = "setuptools.build_meta"
 
 [project]
-  version = "0.0.2"
+  version = "0.0.2a"
   name = "sunbot"
   readme = "README.md"
   description = "Sun activity and propagation bot for telegram."

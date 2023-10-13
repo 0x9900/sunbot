@@ -49,21 +49,13 @@ SOURCE = "\nMore information at https://bsdworld.org/"
 NOAA_URL = 'https://services.swpc.noaa.gov/'
 
 RESOURCES = {
-  "/dxcc": [
-    "https://bsdworld.org/dxcc-week-stats.jpg",
-    "Daily total number of spots for each continents."
-  ],
   "/aindex": [
     "https://bsdworld.org/aindex.jpg",
     "The A index show the fluctuations in the magnetic field."
   ],
-  "/kpindex": [
-    "https://bsdworld.org/kpindex.jpg",
-    "Kp is an indicator of disturbances in the Earth's magnetic field."
-  ],
-  "/forecast": [
-    "https://bsdworld.org/kpi-forecast.jpg",
-    "Recently observed and a three day forecast of space weather conditions."
+  "/dxcc": [
+    "https://bsdworld.org/dxcc-week-stats.jpg",
+    "Daily total number of spots for each continents."
   ],
   "/enlil": [
     "https://bsdworld.org/enlil.mp4",
@@ -73,15 +65,25 @@ RESOURCES = {
     "https://bsdworld.org/flux.jpg",
     "Solar radio flux at 10.7 cm (2800 MHz) is an indicator of solar activity."
   ],
-  "/xray": [
-    "https://bsdworld.org/xray_flux.jpg",
-    ("X-ray emissions from the Sun are primarily associated with solar flares, which "
-     "are sudden and intense releases of energy in the solar atmosphere.")
+  "/forecast": [
+    "https://bsdworld.org/kpi-forecast.jpg",
+    "Recently observed and a three day forecast of space weather conditions."
+  ],
+  "/kpindex": [
+    "https://bsdworld.org/kpindex.jpg",
+    "Kp is an indicator of disturbances in the Earth's magnetic field."
+  ],
+  "/modes": [
+    "https://bsdworld.org/modes.jpg",
+    "Daily total activity per mode."
+  ],
+  "/muf": [
+    "https://bsdworld.org/muf.mp4",
+    "Show the maximum usable frequency."
   ],
   "/proton": [
     "https://bsdworld.org/proton_flux.jpg",
-    ("Proton Flux refers to the number of high-energy protons coming from the Sun "
-     "and reaching the Earth's vicinity.")
+    "Proton Flux is the number of high-energy protons coming from the Sun."
   ],
   "/sunspot": [
     "https://bsdworld.org/ssn.jpg",
@@ -91,13 +93,9 @@ RESOURCES = {
     "https://bsdworld.org/solarwind.jpg",
     "Density, speed, and temperature of protons and electrons plasma."
   ],
-  "/muf": [
-    "https://bsdworld.org/muf.mp4",
-    "Show the maximum usable frequency."
-  ],
-  "/modes": [
-    "https://bsdworld.org/modes.jpg",
-    "Daily total activity per mode."
+  "/xray": [
+    "https://bsdworld.org/xray_flux.jpg",
+    "X-ray emissions from the Sun are primarily associated with solar flares."
   ],
 }
 

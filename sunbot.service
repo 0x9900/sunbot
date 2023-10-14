@@ -5,6 +5,7 @@ After=network.target
 [Service]
 ExecStartPre=/bin/sleep 1
 Type=simple
+# Don't forget to set the User and Group
 User=fred
 Group=staff
 Restart=always

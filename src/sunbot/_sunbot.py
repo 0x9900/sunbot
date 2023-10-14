@@ -436,14 +436,14 @@ def main() -> None:
     ],
     states={
       START_ROUTES: [
-        CallbackQueryHandler(north_america, pattern="^NA$"),
-        CallbackQueryHandler(europe, pattern="^EU$"),
-        CallbackQueryHandler(continent, pattern="^@NA$"),
-        CallbackQueryHandler(continent, pattern="^@EU$"),
-        CallbackQueryHandler(cqzone, pattern="^\d+$"),
+        CallbackQueryHandler(north_america, pattern=r"^NA$"),
+        CallbackQueryHandler(europe, pattern=r"^EU$"),
+        CallbackQueryHandler(continent, pattern=r"^@NA$"),
+        CallbackQueryHandler(continent, pattern=r"^@EU$"),
+        CallbackQueryHandler(cqzone, pattern=r"^\d+$"),
       ],
       INFO: [
-        CallbackQueryHandler(definition),
+        CallbackQueryHandler(definition, pattern=r"^\w+$"),
       ]
     },
     fallbacks=[

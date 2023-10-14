@@ -35,7 +35,7 @@ Proton: >-
   and south poles. The fast-moving protons enhance the D-Layer blocking HF radio
   communication at high latitudes.
 
-XRays: >-
+XRay: >-
   During a solar flare, the x-rays are the first impacts felt. They penetrate to
   the bottom of the ionosphere (to around 80 km). The X-ray photons ionize the
   atmosphere and enhance the ionosphere's D layer. This enhanced D-layer acts as
@@ -44,7 +44,7 @@ XRays: >-
   the dayside region of Earth and is most intense when the sun is directly
   overhead.
 
-SunSpots: >-
+SunSpot: >-
   Sunspots directly impact radio propagation on Earth. These dark, cooler regions
   on the sun's surface create heightened solar activity, affecting the ionosphere
   and its ability to reflect and refract radio signals. When sunspot numbers are

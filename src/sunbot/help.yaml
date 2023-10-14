@@ -1,4 +1,4 @@
-kindex: >-
+kpindex: >-
   The K-index, and by extension the Planetary K-index, are used to characterize
   the magnitude of geomagnetic storms. Kp is an excellent indicator of
   disturbances in the Earth's magnetic field and is used by SWPC to decide
@@ -9,6 +9,8 @@ kindex: >-
   grid, spacecraft operations, users of radio signals that reflect off of or
   pass through the ionosphere, and observers of the aurora.
 
+  Show /kpindex
+
 aindex: >-
   The A and K indices show the fluctuations in the magnetic field, tied to
   specific geographic locations.  The indices have a range from 0 to 9 and are
@@ -17,11 +19,15 @@ aindex: >-
   inpact GPS Systems, Electric Power, HF Radio Communications, Satellite
   Communications.
 
+  Show /aindex
+
 Flux: >-
   The solar radio flux at 10.7 cm (2800 MHz) indicates solar activity. It is one
   of the longest-running records of solar activity. The Solar Flux correlates
   with the sunspot number. Reported in "solar flux units" (SFU), the Solar Flux
   varies from below 50 SFU to above 300 SFU throughout a solar cycle.
+
+  Show /flux
 
 MUF: >-
   The Maximum Usable Frequency (MUF) is the highest radio frequency that can be
@@ -29,11 +35,15 @@ MUF: >-
   ionosphere (skywave or skip) at a specified time, independent of transmitter
   power. This index is especially useful for HF transmissions.
 
+  Show /muf
+
 Proton: >-
   The radiation storm caused by energetic solar protons, can disrupt HF radio
   communication. The protons collide with the upper atmosphere near the north
   and south poles. The fast-moving protons enhance the D-Layer blocking HF radio
   communication at high latitudes.
+
+  Show /proton
 
 XRay: >-
   During a solar flare, the x-rays are the first impacts felt. They penetrate to
@@ -44,6 +54,8 @@ XRay: >-
   the dayside region of Earth and is most intense when the sun is directly
   overhead.
 
+  Show /xray
+
 SunSpot: >-
   Sunspots directly impact radio propagation on Earth. These dark, cooler regions
   on the sun's surface create heightened solar activity, affecting the ionosphere
@@ -52,9 +64,13 @@ SunSpot: >-
   communication. Conversely, signal strength and propagation conditions can
   become challenging during low sunspot activity.
 
+  Show /sunspot
+
 Wind: >-
   The solar wind, emitted from the sun in Earth's direction, impacts the
   atmosphere and the planet's magnetic fields. It causes events such as auroras.
   They can also wreak havoc on communications, disturbing the Earth's
   electromagnetic field and distorting radio transmission. Severe solar wind can
   also affect power grids, causing fluctuations and blackouts.
+
+  Whow /wind

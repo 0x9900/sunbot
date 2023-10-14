@@ -3,7 +3,6 @@
   build-backend = "setuptools.build_meta"
 
 [project]
-  version = "0.0.2a"
   name = "sunbot"
   readme = "README.md"
   description = "Sun activity and propagation bot for telegram."
@@ -25,7 +24,10 @@
   dependencies = [
     "aiofiles",
     "python-telegram-bot >= 20",
+    "PyYAML",
   ]
+  dynamic = ["version"]
+
 
 [project.urls]
   Documentation = "https://github.com/0x9900/sunbot/"
@@ -33,7 +35,13 @@
   Tracker = "https://github.com/0x9900/sunbot/issues"
 
 [project.scripts]
-  sunbot = "sunbot:main"
+  sunbot = "sunbot._sunbot:main"
 
-[tool.setuptools]
-  package-dir = {"" = "."}
+[tool.setuptools.dynamic]
+  version = { attr = "sunbot.__version__" }
+
+[tool.setuptools.packages.find]
+  where = ["src"]
+
+[tool.setuptools.package-data]
+  "sunbot" = ["help.yaml"]

@@ -1,0 +1,60 @@
+kindex: >-
+  The K-index, and by extension the Planetary K-index, are used to characterize
+  the magnitude of geomagnetic storms. Kp is an excellent indicator of
+  disturbances in the Earth's magnetic field and is used by SWPC to decide
+  whether geomagnetic alerts and warnings need to be issued for users who are
+  affected by these disturbances.
+
+  The principal users affected by geomagnetic storms are the electrical power
+  grid, spacecraft operations, users of radio signals that reflect off of or
+  pass through the ionosphere, and observers of the aurora.
+
+aindex: >-
+  The A and K indices show the fluctuations in the magnetic field, tied to
+  specific geographic locations.  The indices have a range from 0 to 9 and are
+  directly related to the maximum amount of fluctuation (relative to a quiet
+  day) in the geomagnetic field over a three-hour interval. The A and K index
+  inpact GPS Systems, Electric Power, HF Radio Communications, Satellite
+  Communications.
+
+Flux: >-
+  The solar radio flux at 10.7 cm (2800 MHz) indicates solar activity. It is one
+  of the longest-running records of solar activity. The Solar Flux correlates
+  with the sunspot number. Reported in "solar flux units" (SFU), the Solar Flux
+  varies from below 50 SFU to above 300 SFU throughout a solar cycle.
+
+MUF: >-
+  The Maximum Usable Frequency (MUF) is the highest radio frequency that can be
+  used for transmission between two stations on Earth by reflection from the
+  ionosphere (skywave or skip) at a specified time, independent of transmitter
+  power. This index is especially useful for HF transmissions.
+
+Proton: >-
+  The radiation storm caused by energetic solar protons, can disrupt HF radio
+  communication. The protons collide with the upper atmosphere near the north
+  and south poles. The fast-moving protons enhance the D-Layer blocking HF radio
+  communication at high latitudes.
+
+XRays: >-
+  During a solar flare, the x-rays are the first impacts felt. They penetrate to
+  the bottom of the ionosphere (to around 80 km). The X-ray photons ionize the
+  atmosphere and enhance the ionosphere's D layer. This enhanced D-layer acts as
+  a reflector of radio waves at some frequencies and an absorber of waves at
+  other frequencies. The Radio Blackout associated with solar flares occurs on
+  the dayside region of Earth and is most intense when the sun is directly
+  overhead.
+
+SunSpots: >-
+  Sunspots directly impact radio propagation on Earth. These dark, cooler regions
+  on the sun's surface create heightened solar activity, affecting the ionosphere
+  and its ability to reflect and refract radio signals. When sunspot numbers are
+  high, the increased ionization allows for longer-distance and more reliable
+  communication. Conversely, signal strength and propagation conditions can
+  become challenging during low sunspot activity.
+
+Wind: >-
+  The solar wind, emitted from the sun in Earth's direction, impacts the
+  atmosphere and the planet's magnetic fields. It causes events such as auroras.
+  They can also wreak havoc on communications, disturbing the Earth's
+  electromagnetic field and distorting radio transmission. Severe solar wind can
+  also affect power grids, causing fluctuations and blackouts.

@@ -8,10 +8,14 @@ Send /start to initiate the conversation.
 import html
 import json
 import logging
+import os
 import pathlib
 import time
 import traceback
+import yaml
 
+from collections import UserDict
+from itertools import islice
 from urllib.parse import urljoin
 
 import aiofiles
@@ -44,26 +48,18 @@ logger = logging.getLogger(__name__)
 
 # Stages
 CONFIG_FILES = ("sunbot.conf", "~/.local/sunbot.conf", "/etc/sunbot.conf")
-START_ROUTES = 1
+START_ROUTES, INFO = 1, 2
 SOURCE = "\nMore information at https://bsdworld.org/"
 NOAA_URL = 'https://services.swpc.noaa.gov/'
 
 RESOURCES = {
-  "/dxcc": [
-    "https://bsdworld.org/dxcc-week-stats.jpg",
-    "Daily total number of spots for each continents."
-  ],
   "/aindex": [
     "https://bsdworld.org/aindex.jpg",
     "The A index show the fluctuations in the magnetic field."
   ],
-  "/kpindex": [
-    "https://bsdworld.org/kpindex.jpg",
-    "Kp is an indicator of disturbances in the Earth's magnetic field."
-  ],
-  "/forecast": [
-    "https://bsdworld.org/kpi-forecast.jpg",
-    "Recently observed and a three day forecast of space weather conditions."
+  "/dxcc": [
+    "https://bsdworld.org/dxcc-week-stats.jpg",
+    "Daily total number of spots for each continents."
   ],
   "/enlil": [
     "https://bsdworld.org/enlil.mp4",
@@ -73,15 +69,25 @@ RESOURCES = {
     "https://bsdworld.org/flux.jpg",
     "Solar radio flux at 10.7 cm (2800 MHz) is an indicator of solar activity."
   ],
-  "/xray": [
-    "https://bsdworld.org/xray_flux.jpg",
-    ("X-ray emissions from the Sun are primarily associated with solar flares, which "
-     "are sudden and intense releases of energy in the solar atmosphere.")
+  "/forecast": [
+    "https://bsdworld.org/kpi-forecast.jpg",
+    "Recently observed and a three day forecast of space weather conditions."
+  ],
+  "/kpindex": [
+    "https://bsdworld.org/kpindex.jpg",
+    "Kp is an indicator of disturbances in the Earth's magnetic field."
+  ],
+  "/modes": [
+    "https://bsdworld.org/modes.jpg",
+    "Daily total activity per mode."
+  ],
+  "/muf": [
+    "https://bsdworld.org/muf.mp4",
+    "Show the maximum usable frequency."
   ],
   "/proton": [
     "https://bsdworld.org/proton_flux.jpg",
-    ("Proton Flux refers to the number of high-energy protons coming from the Sun "
-     "and reaching the Earth's vicinity.")
+    "Proton Flux is the number of high-energy protons coming from the Sun."
   ],
   "/sunspot": [
     "https://bsdworld.org/ssn.jpg",
@@ -91,13 +97,9 @@ RESOURCES = {
     "https://bsdworld.org/solarwind.jpg",
     "Density, speed, and temperature of protons and electrons plasma."
   ],
-  "/muf": [
-    "https://bsdworld.org/muf.mp4",
-    "Show the maximum usable frequency."
-  ],
-  "/modes": [
-    "https://bsdworld.org/modes.jpg",
-    "Daily total activity per mode."
+  "/xray": [
+    "https://bsdworld.org/xray_flux.jpg",
+    "X-ray emissions from the Sun are primarily associated with solar flares."
   ],
 }
 
@@ -105,6 +107,42 @@ RESOURCES = {
 class Config:
   token: str = None
   developer_id: int | None = None
+
+
+class Terms(dict):
+  _instance = None
+
+  def __new__(cls, *args, **kwargs):
+    if cls._instance is None:
+      cls._instance = super(Terms, cls).__new__(cls)
+    return cls._instance
+
+  def __init__(self):
+    if self:
+      return
+    data_dir = os.path.dirname(__file__)
+    data_path = os.path.join(data_dir, 'help.yaml')
+
+    print(data_path)
+    with open(data_path, 'r', encoding='utf-8') as fdi:
+      data = yaml.safe_load(fdi)
+    super(Terms, self).__init__({k.lower(): v for k, v in data.items()})
+
+  def __getitem__(self, key):
+    if isisntance(key, str):
+      key = key.lower()
+    return super(Terms, self).__getitem__(key)
+
+
+def batched(iterable, n):
+  """This function is from the package more-itertools"""
+  # batched('ABCDEFG', 3) --> ABC DEF G
+  if n < 1:
+    raise ValueError('n must be at least one')
+  _it = iter(iterable)
+  while batch := tuple(islice(_it, n)):
+    yield batch
+
 
 def load_config() -> None:
   """load token and developer_id from the config file"""
@@ -133,6 +171,7 @@ def rid(timeout: Optional[int]=900) -> str:
   """Generate an id that will change every 900 seconds"""
   _id = int(time.time() / 900)
   return str(_id)
+
 
 async def load_cache_file(url: str, filename: str, timeout: Optional[int]=3600):
   """download the content of an url and save it into a file"""
@@ -185,20 +224,6 @@ async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   return ConversationHandler.END
 
 
-async def bands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-  """Send message on `/bands`."""
-  user = update.message.from_user
-  logger.info("User %s asking band informations.", user.first_name)
-  keyboard = [
-    [
-      InlineKeyboardButton("North America", callback_data=str("NA")),
-      InlineKeyboardButton("Europe", callback_data=str("EU")),
-    ]
-  ]
-  reply_markup = InlineKeyboardMarkup(keyboard)
-  await update.message.reply_text("Propagation: Choose a continent", reply_markup=reply_markup)
-  return START_ROUTES
-
 async def alerts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
   """download and send the NOAA alerts"""
   url = urljoin(NOAA_URL, "/text/wwv.txt")
@@ -230,6 +255,21 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
   await update.message.reply_markdown('\n'.join(response))
 
 
+async def bands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+  """Send message on `/bands`."""
+  user = update.message.from_user
+  logger.info("User %s asking band informations.", user.first_name)
+  keyboard = [
+    [
+      InlineKeyboardButton("North America", callback_data=str("NA")),
+      InlineKeyboardButton("Europe", callback_data=str("EU")),
+    ]
+  ]
+  reply_markup = InlineKeyboardMarkup(keyboard)
+  await update.message.reply_text("Propagation: Choose a continent", reply_markup=reply_markup)
+  return START_ROUTES
+
+
 async def north_america(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Show new choice of buttons"""
   query = update.callback_query
@@ -245,9 +285,7 @@ async def north_america(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     ]
   ]
   reply_markup = InlineKeyboardMarkup(keyboard)
-  await query.edit_message_text(
-      text="Choose a CQZone", reply_markup=reply_markup
-  )
+  await query.edit_message_text(text="Choose a CQZone", reply_markup=reply_markup)
   return START_ROUTES
 
 
@@ -267,10 +305,42 @@ async def europe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     ]
   ]
   reply_markup = InlineKeyboardMarkup(keyboard)
-  await query.edit_message_text(
-      text="Choose a CQZone", reply_markup=reply_markup
-  )
+  await query.edit_message_text(text="Choose a CQZone", reply_markup=reply_markup)
   return START_ROUTES
+
+
+async def info_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+  """Show the information menu for the words definitions"""
+  user = update.message.from_user
+  text = update.message.text.split()
+  terms = Terms()
+  logger.info("User %s asking info.", user.first_name)
+  if len(text) == 2:
+    keyword = text[1]
+    definition = f'*Information about {keyword}:*\n' + terms.get(keyword, 'No definition found')
+    await update.message.reply_text(text=definition, parse_mode=ParseMode.MARKDOWN)
+    return ConversationHandler.END
+  else:
+    keyboard = []
+    for keywords in batched(terms, 2):
+      row = []
+      for item in keywords:
+        row.append(InlineKeyboardButton(item, callback_data=item))
+      keyboard.append(row)
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text("Choose a keyword", reply_markup=reply_markup)
+    return INFO
+
+
+async def definition(update: Update, contex: ContextTypes.DEFAULT_TYPE) -> int:
+  query = update.callback_query
+  keyword = query.data
+  terms = Terms()
+  await query.answer()
+  definition = f'*Information about {keyword}:*\n' + terms.get(keyword, 'not found')
+  await query.edit_message_text(text=definition, parse_mode=ParseMode.MARKDOWN)
+  return ConversationHandler.END
+
 
 async def cqzone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Return send the graph corresponding to the zone and returns
@@ -313,6 +383,7 @@ async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
   commands['/bands'] = 'Propagation by band and continent.'
   commands['/alerts'] = 'Solar activity alerts.'
   commands['/forecast'] = 'Forecast Discussion.'
+  commands['/info'] = 'Definition of certain terms.'
 
   for cmd, label in sorted(commands.items()):
     help.append(f"{cmd} : {label}")
@@ -345,7 +416,12 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
 
 def main() -> None:
   """Run the bot."""
-  load_config()
+  try:
+    load_config()
+  except FileNotFoundError as err:
+    logging.error(err)
+    return os.EX_CONFIG
+
   # Create the Application and pass it your bot's token.
   application = Application.builder().token(Config.token).build()
 
@@ -356,6 +432,7 @@ def main() -> None:
     entry_points=[
       CommandHandler("band", bands),
       CommandHandler("bands", bands),
+      CommandHandler("info", info_menu),
     ],
     states={
       START_ROUTES: [
@@ -365,6 +442,9 @@ def main() -> None:
         CallbackQueryHandler(continent, pattern="^@EU$"),
         CallbackQueryHandler(cqzone, pattern="^\d+$"),
       ],
+      INFO: [
+        CallbackQueryHandler(definition),
+      ]
     },
     fallbacks=[
       CommandHandler("band", bands),

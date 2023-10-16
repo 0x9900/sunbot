@@ -12,20 +12,19 @@ import os
 import pathlib
 import time
 import traceback
-import yaml
 
-from collections import UserDict
 from itertools import islice
+from typing import Optional
 from urllib.parse import urljoin
 
 import aiofiles
 import httpx
+import yaml
 
 from telegram import (
   InlineKeyboardButton,
   InlineKeyboardMarkup,
   Update,
-  ForceReply
 )
 from telegram.constants import ParseMode
 from telegram.ext import (
@@ -35,7 +34,6 @@ from telegram.ext import (
   ContextTypes,
   ConversationHandler,
 )
-from typing import Optional
 
 # Enable logging
 logging.basicConfig(
@@ -105,11 +103,14 @@ RESOURCES = {
 
 
 class Config:
+  """Holds configuration informations"""
+  # pylint: disable=too-few-public-methods
   token: str = None
   developer_id: int | None = None
 
 
 class Terms(dict):
+  """Simgleton dictionary containing the terms definitions"""
   _instance = None
 
   def __new__(cls, *args, **kwargs):
@@ -123,24 +124,23 @@ class Terms(dict):
     data_dir = os.path.dirname(__file__)
     data_path = os.path.join(data_dir, 'help.yaml')
 
-    print(data_path)
     with open(data_path, 'r', encoding='utf-8') as fdi:
       data = yaml.safe_load(fdi)
-    super(Terms, self).__init__({k.lower(): v for k, v in data.items()})
+    super().__init__({k.lower(): v for k, v in data.items()})
 
   def __getitem__(self, key):
-    if isisntance(key, str):
+    if isinstance(key, str):
       key = key.lower()
-    return super(Terms, self).__getitem__(key)
+    return super().__getitem__(key)
 
 
-def batched(iterable, n):
+def batched(iterable, batch_len):
   """This function is from the package more-itertools"""
   # batched('ABCDEFG', 3) --> ABC DEF G
-  if n < 1:
+  if batch_len < 1:
     raise ValueError('n must be at least one')
   _it = iter(iterable)
-  while batch := tuple(islice(_it, n)):
+  while batch := tuple(islice(_it, batch_len)):
     yield batch
 
 
@@ -164,7 +164,7 @@ def load_config() -> None:
       elif key == 'developer_id':
         Config.developer_id = int(val)
       else:
-        logging.warning("config error: %s", line)
+        logger.warning("config error: %s", line)
 
 
 def rid(timeout: Optional[int]=900) -> str:
@@ -189,6 +189,7 @@ async def load_cache_file(url: str, filename: str, timeout: Optional[int]=3600):
 
 
 async def text_forecast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  """Downlaod the forecast text file, format it and send it to the user"""
   url = urljoin(NOAA_URL, '/text/discussion.txt')
   cache_file = '/tmp/discussion.txt'
   await load_cache_file(url, cache_file, 3600*4)
@@ -210,7 +211,7 @@ async def text_forecast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Send the flux graph"""
   message = update.effective_message
-  user = message.from_user
+  user = update.effective_user
   resource = RESOURCES[message.text]
   if resource[0].endswith('.jpg'):
     url = f"{resource[0]}?s={rid()}"
@@ -238,27 +239,32 @@ async def alerts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
       line = line.replace(':Issued: ', 'Report from: ')
       alert.append(line)
 
-  logger.info("User %s command %s",
-              update.message.from_user.username,
-              update.message.text)
+  message = update.effective_message
+  user = update.effective_user
+  logger.info("User %s command %s", user.first_name, message.text)
   await update.message.reply_text('\n'.join(alert))
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
   """Send a message when the command /start is issued."""
-  user = update.effective_user
+  message = update.effective_message
+  user = message.from_user
   response = (
     f"Hi {user.mention_markdown()} and welcome.",
     "Use '/help' to see the list of commands.",
     "SunFluxBot developped by [W6BSD](https://0x9900.com/)"
   )
   await update.message.reply_markdown('\n'.join(response))
+  message = update.effective_message
+  user = update.effective_user
+  logger.info("User %s command %s", user.first_name, message.text)
 
 
 async def bands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Send message on `/bands`."""
-  user = update.message.from_user
-  logger.info("User %s asking band informations.", user.first_name)
+  message = update.effective_message
+  user = update.effective_user
+  logger.info("User %s command %s", user.first_name, message.text)
   keyboard = [
     [
       InlineKeyboardButton("North America", callback_data=str("NA")),
@@ -311,34 +317,36 @@ async def europe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 async def info_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Show the information menu for the words definitions"""
-  user = update.message.from_user
-  text = update.message.text.split()
+  message = update.effective_message
+  user = update.effective_user
+  logger.info("User %s command %s", user.first_name, message.text)
+  text = message.text.split()
   terms = Terms()
-  logger.info("User %s asking info.", user.first_name)
   if len(text) == 2:
     keyword = text[1]
-    definition = f'*Information about {keyword}:*\n' + terms.get(keyword, 'No definition found')
-    await update.message.reply_text(text=definition, parse_mode=ParseMode.MARKDOWN)
+    term_def = f'*Information about {keyword}:*\n' + terms.get(keyword, 'No definition found')
+    await update.message.reply_text(text=term_def, parse_mode=ParseMode.MARKDOWN)
     return ConversationHandler.END
-  else:
-    keyboard = []
-    for keywords in batched(terms, 2):
-      row = []
-      for item in keywords:
-        row.append(InlineKeyboardButton(item, callback_data=item))
-      keyboard.append(row)
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("Choose a keyword", reply_markup=reply_markup)
-    return INFO
+
+  keyboard = []
+  for keywords in batched(terms, 2):
+    row = []
+    for item in keywords:
+      row.append(InlineKeyboardButton(item, callback_data=item))
+    keyboard.append(row)
+  reply_markup = InlineKeyboardMarkup(keyboard)
+  await update.message.reply_text("Choose a keyword", reply_markup=reply_markup)
+  return INFO
 
 
 async def definition(update: Update, contex: ContextTypes.DEFAULT_TYPE) -> int:
+  """Lookup the term definition and send a message"""
   query = update.callback_query
   keyword = query.data
   terms = Terms()
   await query.answer()
-  definition = f'*Information about {keyword}:*\n' + terms.get(keyword, 'not found')
-  await query.edit_message_text(text=definition, parse_mode=ParseMode.MARKDOWN)
+  word_def = f'*Information about {keyword}:*\n' + terms.get(keyword, 'not found')
+  await query.edit_message_text(text=word_def, parse_mode=ParseMode.MARKDOWN)
   return ConversationHandler.END
 
 
@@ -368,7 +376,7 @@ async def continent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   query = update.callback_query
   con = query.data.lstrip('@')
   url = f'https://bsdworld.org/DXCC/continent/{con}/latest.webp?{rid()}'
-  logging.info(url)
+  logger.info(url)
   await query.answer()
   await query.message.reply_photo(url, caption=f"{labels[con]}{SOURCE}")
   await query.edit_message_reply_markup(reply_markup=None)
@@ -377,7 +385,10 @@ async def continent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
   """Send a message when the command /help is issued."""
-  help = ["*Group commands:*\n"]
+  message = update.effective_message
+  user = update.effective_user
+  logger.info("User %s command %s", user.first_name, message.text)
+  help_msg = ["*Group commands:*\n"]
   commands = {k: v[1] for k, v in RESOURCES.items()}
   commands['/help'] = 'This message.'
   commands['/bands'] = 'Propagation by band and continent.'
@@ -386,8 +397,8 @@ async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
   commands['/info'] = 'Definition of certain terms.'
 
   for cmd, label in sorted(commands.items()):
-    help.append(f"{cmd} : {label}")
-  await update.message.reply_text("\n".join(help), parse_mode=ParseMode.MARKDOWN)
+    help_msg.append(f"{cmd} : {label}")
+  await update.message.reply_text("\n".join(help_msg), parse_mode=ParseMode.MARKDOWN)
 
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -414,12 +425,12 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
   )
 
 
-def main() -> None:
+def main() -> int:
   """Run the bot."""
   try:
     load_config()
   except FileNotFoundError as err:
-    logging.error(err)
+    logger.error(err)
     return os.EX_CONFIG
 
   # Create the Application and pass it your bot's token.
@@ -464,12 +475,13 @@ def main() -> None:
   application.add_handler(CommandHandler("prediction", text_forecast))
   application.add_handler(CommandHandler("predictions", text_forecast))
   application.add_handler(CommandHandler("start", start))
-  for command in RESOURCES.keys():
+  for command in RESOURCES:
     application.add_handler(CommandHandler(command.lstrip('/'), send_graph))
 
   # Run the bot until the user presses Ctrl-C
   application.run_polling(allowed_updates=Update.ALL_TYPES)
+  return os.EX_OK
 
 
 if __name__ == "__main__":
-    main()
+  main()

@@ -124,7 +124,6 @@ class Terms(dict):
     data_dir = os.path.dirname(__file__)
     data_path = os.path.join(data_dir, 'help.yaml')
 
-    print(data_path)
     with open(data_path, 'r', encoding='utf-8') as fdi:
       data = yaml.safe_load(fdi)
     super().__init__({k.lower(): v for k, v in data.items()})

@@ -37,7 +37,7 @@ from telegram.ext import (
 
 # Enable logging
 logging.basicConfig(
-  format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+  format="%(asctime)s - %(name)s[%(process)d] - %(levelname)s - %(message)s", level=logging.INFO
 )
 # set higher logging level for httpx to avoid all GET and POST requests being logged
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -482,8 +482,11 @@ def main() -> int:
   for command in RESOURCES:
     application.add_handler(CommandHandler(command.lstrip('/'), send_graph))
 
-  # Run the bot until the user presses Ctrl-C
-  application.run_polling(allowed_updates=Update.ALL_TYPES)
+  try:
+    # Run the bot until the user presses Ctrl-C
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
+  except telegram.error.TimedOut as err:
+    logger.critical(err)
   return os.EX_OK
 
 

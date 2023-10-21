@@ -212,7 +212,8 @@ async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Send the flux graph"""
   message = update.effective_message
   user = update.effective_user
-  resource = RESOURCES[message.text]
+  command = message.text.split('@')[0]
+  resource = RESOURCES[command]
   if resource[0].endswith('.jpg'):
     url = f"{resource[0]}?s={rid()}"
     await message.reply_photo(url, caption=f"{resource[1]}{SOURCE}")

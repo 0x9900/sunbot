@@ -286,6 +286,8 @@ async def bands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def north_america(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Show new choice of buttons"""
   query = update.callback_query
+  user = update.effective_user
+  logger.info("User %s command North America", user.first_name)
   await query.answer()
   keyboard = [
     [
@@ -305,6 +307,8 @@ async def north_america(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 async def europe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Show new choice of buttons"""
   query = update.callback_query
+  user = update.effective_user
+  logger.info("User %s command Europe", user.first_name)
   await query.answer()
   keyboard = [
     [
@@ -362,7 +366,9 @@ async def cqzone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   `ConversationHandler.END` which tells the conversationHandler that the conversation is over.
   """
   query = update.callback_query
+  user = update.effective_user
   zone = query.data
+  logger.info("User %s CQZone%s", user.first_name, zone)
   await query.answer()
   await query.message.reply_photo(
     f'https://bsdworld.org/DXCC/cqzone/{zone}/latest.webp?{rid()}',

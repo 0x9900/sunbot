@@ -366,8 +366,8 @@ async def cqzone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   `ConversationHandler.END` which tells the conversationHandler that the conversation is over.
   """
   query = update.callback_query
-  user = update.effective_user
   zone = query.data
+  user = update.effective_user
   logger.info("User %s CQZone%s", user.first_name, zone)
   await query.answer()
   await query.message.reply_photo(
@@ -388,8 +388,9 @@ async def continent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   }
   query = update.callback_query
   con = query.data.lstrip('@')
+  user = update.effective_user
+  logger.info("User %s Continent %s", user.first_name, con)
   url = f'https://bsdworld.org/DXCC/continent/{con}/latest.webp?{rid()}'
-  logger.info(url)
   await query.answer()
   await query.message.reply_photo(url, caption=f"{labels[con]}{SOURCE}")
   await query.edit_message_reply_markup(reply_markup=None)

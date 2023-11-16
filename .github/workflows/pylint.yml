@@ -19,6 +19,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
         pip install PyYAML
+        pip install aiofiles
         pip install python-telegram-bot
     - name: Analysing the code with pylint
       run: |

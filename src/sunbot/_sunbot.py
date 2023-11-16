@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# pylint: disable=unused-argument
+# pylint: disable=unused-argument,unsupported-binary-operation
 
 """
 Send /start to initiate the conversation.
@@ -19,6 +19,7 @@ from urllib.parse import urljoin
 
 import aiofiles
 import httpx
+import telegram.error
 import yaml
 
 from telegram import (

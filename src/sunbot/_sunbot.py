@@ -78,10 +78,6 @@ RESOURCES = {
     "https://bsdworld.org/kpindex.jpg",
     "Kp is an indicator of disturbances in the Earth's magnetic field."
   ],
-  "/modes": [
-    "https://bsdworld.org/modes.jpg",
-    "Daily total activity per mode."
-  ],
   "/muf": [
     "https://bsdworld.org/muf.mp4",
     "Show the maximum usable frequency."

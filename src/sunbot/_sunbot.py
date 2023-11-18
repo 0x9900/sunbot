@@ -71,11 +71,11 @@ RESOURCES = {
     "Solar radio flux at 10.7 cm (2800 MHz) is an indicator of solar activity."
   ],
   "/forecast": [
-    "https://bsdworld.org/kpi-forecast.jpg",
+    "https://bsdworld.org/pki-forecast.jpg",
     "Recently observed and a three day forecast of space weather conditions."
   ],
-  "/kpindex": [
-    "https://bsdworld.org/kpindex.jpg",
+  "/pkindex": [
+    "https://bsdworld.org/pkindex.jpg",
     "Kp is an indicator of disturbances in the Earth's magnetic field."
   ],
   "/muf": [

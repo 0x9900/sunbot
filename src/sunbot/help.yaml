@@ -1,4 +1,4 @@
-kpindex: >-
+pkindex: >-
   The K-index, and by extension the Planetary K-index, are used to characterize
   the magnitude of geomagnetic storms. Kp is an excellent indicator of
   disturbances in the Earth's magnetic field and is used by SWPC to decide
@@ -9,7 +9,7 @@ kpindex: >-
   grid, spacecraft operations, users of radio signals that reflect off of or
   pass through the ionosphere, and observers of the aurora.
 
-  Show /kpindex
+  Show /pkindex
 
 aindex: >-
   The A and K indices show the fluctuations in the magnetic field, tied to

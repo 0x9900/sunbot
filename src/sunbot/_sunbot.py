@@ -58,10 +58,6 @@ RESOURCES = {
     "https://bsdworld.org/aindex.jpg",
     "The A index show the fluctuations in the magnetic field."
   ],
-  "/dxcc": [
-    "https://bsdworld.org/dxcc-week-stats.jpg",
-    "Daily total number of spots for each continents."
-  ],
   "/enlil": [
     "https://bsdworld.org/enlil.mp4",
     "WSA-Enlil Solar Wind Prediction."

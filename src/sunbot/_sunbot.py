@@ -427,9 +427,12 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
     f"<pre>{html.escape(tb_string)}</pre>"
   )
   # Send the message
-  await context.bot.send_message(
-    chat_id=Config.developer_id, text=message, parse_mode=ParseMode.HTML
-  )
+  try:
+    await context.bot.send_message(
+      chat_id=Config.developer_id, text=message, parse_mode=ParseMode.HTML
+    )
+  except telegram.error.BadRequest as err:
+    logger.error(err)
 
 
 def main() -> int:

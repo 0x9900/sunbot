@@ -247,7 +247,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
   user = message.from_user
   response = (
     f"Hi {user.mention_markdown()} and welcome.",
-    "SunFluxBot developed by [W6BSD](https://0x9900.com/)",
+    "Thank for using SunFluxBot _developed by W6BSD_",
     "",
     ("If your club has a telegram group, you can invite this bot to your group,"
     "and every club member will have access to the sun and band activity graphs."),

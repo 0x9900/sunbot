@@ -247,12 +247,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
   user = message.from_user
   response = (
     f"Hi {user.mention_markdown()} and welcome.",
-    "Use '/help' to see the list of commands.",
+    "SunFluxBot developed by [W6BSD](https://0x9900.com/)",
     "",
     ("If your club has a telegram group, you can invite this bot to your group,"
     "and every club member will have access to the sun and band activity graphs."),
     "",
-    "SunFluxBot developed by [W6BSD](https://0x9900.com/)",
+    "Use '/help' to see the list of commands.",
   )
   await update.message.reply_markdown('\n'.join(response))
   message = update.effective_message

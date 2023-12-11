@@ -12,7 +12,6 @@ import os
 import pathlib
 import time
 import traceback
-
 from itertools import islice
 from typing import Optional
 from urllib.parse import urljoin
@@ -21,20 +20,10 @@ import aiofiles
 import httpx
 import telegram.error
 import yaml
-
-from telegram import (
-  InlineKeyboardButton,
-  InlineKeyboardMarkup,
-  Update,
-)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
-from telegram.ext import (
-  Application,
-  CallbackQueryHandler,
-  CommandHandler,
-  ContextTypes,
-  ConversationHandler,
-)
+from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
+                          ContextTypes, ConversationHandler)
 
 # Enable logging
 logging.basicConfig(

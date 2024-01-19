@@ -15,6 +15,7 @@ import traceback
 from itertools import islice
 from typing import Optional
 from urllib.parse import urljoin
+from warnings import filterwarnings
 
 import aiofiles
 import httpx
@@ -24,6 +25,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           ContextTypes, ConversationHandler)
+from telegram.warnings import PTBUserWarning
+
+filterwarnings(action="ignore", message=r".git*CallbackQueryHandler", category=PTBUserWarning)
 
 # Enable logging
 logging.basicConfig(

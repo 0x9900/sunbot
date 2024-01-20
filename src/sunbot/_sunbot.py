@@ -141,8 +141,8 @@ def load_config() -> None:
   else:
     raise FileNotFoundError('Configuration file missing')
   with open(path, 'r', encoding="utf-8") as fdc:
-    lines = (l.strip() for l in fdc)
-    lines = (l for l in lines if not l.startswith('#'))
+    lines = (line.strip() for line in fdc)
+    lines = (line for line in lines if not line.startswith('#'))
     for line in lines:
       key, val = line.split(':', 1)
       key = key.strip()
@@ -155,13 +155,13 @@ def load_config() -> None:
         logger.warning("config error: %s", line)
 
 
-def rid(timeout: Optional[int]=900) -> str:
+def rid(timeout: Optional[int] = 900) -> str:
   """Generate an id that will change every 900 seconds"""
   _id = int(time.time() / 900)
   return str(_id)
 
 
-async def load_cache_file(url: str, filename: str, timeout: Optional[int]=3600):
+async def load_cache_file(url: str, filename: str, timeout: Optional[int] = 3600):
   """download the content of an url and save it into a file"""
   file_path = pathlib.Path(filename)
   try:
@@ -243,7 +243,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     "Thank for using SunFluxBot _developed by W6BSD_",
     "",
     ("If your club has a telegram group, you can invite this bot to your group,"
-    "and every club member will have access to the sun and band activity graphs."),
+     "and every club member will have access to the sun and band activity graphs."),
     "",
     "Use '/help' to see the list of commands.",
   )

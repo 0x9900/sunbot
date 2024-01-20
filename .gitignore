@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.conf
 *.swp
+.pre-commit-config.yaml
 
 # C extensions
 *.so

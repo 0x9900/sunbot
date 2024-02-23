@@ -10,6 +10,7 @@ import json
 import logging
 import os
 import pathlib
+import re
 import time
 import traceback
 from itertools import islice
@@ -198,10 +199,16 @@ async def text_forecast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   """Send the flux graph"""
+  _re = re.compile(r'(?P<cmd>/\w+)(?:!@SunFluxBot|)(?P<line>.*|)')
   message = update.effective_message
   user = update.effective_user
-  command = message.text.split('@')[0]
-  resource = RESOURCES[command]
+  match = _re.match(message.text)
+  if not match:
+    logger.info('User command error: %s',  message.text)
+    return ConversationHandler.END
+
+  request = match.groupdict()
+  resource = RESOURCES[request['cmd']]
   if resource[0].endswith('.jpg'):
     url = f"{resource[0]}?s={rid()}"
     await message.reply_photo(url, caption=f"{resource[1]}{SOURCE}")

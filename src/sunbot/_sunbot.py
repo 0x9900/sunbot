@@ -286,7 +286,7 @@ async def north_america(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     [
       InlineKeyboardButton("CQZone 3", callback_data="3"),
       InlineKeyboardButton("CQZone 4", callback_data="4"),
-      InlineKeyboardButton("CQZone 5", callback_data="4"),
+      InlineKeyboardButton("CQZone 5", callback_data="5"),
     ],
     [
       InlineKeyboardButton("North America, all Zones", callback_data="@NA"),
@@ -305,10 +305,10 @@ async def europe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   await query.answer()
   keyboard = [
     [
-     InlineKeyboardButton("CQZone 14", callback_data=str("14")),
-     InlineKeyboardButton("CQZone 15", callback_data=str("15")),
-     InlineKeyboardButton("CQZone 16", callback_data=str("16")),
-     InlineKeyboardButton("CQZone 21", callback_data=str("20")),
+     InlineKeyboardButton("CQZone 14", callback_data="14"),
+     InlineKeyboardButton("CQZone 15", callback_data="15"),
+     InlineKeyboardButton("CQZone 16", callback_data="16"),
+     InlineKeyboardButton("CQZone 21", callback_data="20"),
     ],
     [
      InlineKeyboardButton("Europe, all Zones", callback_data=str("@EU")),

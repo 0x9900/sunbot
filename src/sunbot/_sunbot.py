@@ -410,7 +410,7 @@ async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
   """Log the error and send a telegram message to notify the developer."""
-  logger.error("Exception while handling an update:", exc_info=context.error)
+  # logger.error("Exception while handling an update:", exc_info=context.error)
 
   # traceback.format_exception returns the usual python message about an exception
   tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)

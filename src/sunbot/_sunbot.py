@@ -88,6 +88,10 @@ RESOURCES = {
     "https://bsdworld.org/xray_flux.jpg",
     "X-ray emissions from the Sun are primarily associated with solar flares."
   ],
+  "/stats": [
+    "https://bsdworld.org/dxcc-stats.jpg",
+    "Activity statistics."
+  ],
 }
 
 

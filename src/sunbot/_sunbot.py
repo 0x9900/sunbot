@@ -212,7 +212,7 @@ async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
   request = match.groupdict()
-  resource = RESOURCES[request['cmd']]
+  resource = RESOURCES[request['cmd'].lower()]
   if resource[0].endswith('.jpg'):
     url = f"{resource[0]}?s={rid()}"
     await message.reply_photo(url, caption=f"{resource[1]}{SOURCE}")

@@ -273,7 +273,15 @@ async def bands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     [
       InlineKeyboardButton("North America", callback_data=str("NA")),
       InlineKeyboardButton("Europe", callback_data=str("EU")),
-    ]
+    ],
+    [
+      InlineKeyboardButton("Oceania", callback_data=str("@OC")),
+      InlineKeyboardButton("South America", callback_data=str("@SA")),
+    ],
+    [
+      InlineKeyboardButton("Africa", callback_data=str("@AF")),
+      InlineKeyboardButton("Asia", callback_data=str("@AS")),
+    ],
   ]
   reply_markup = InlineKeyboardMarkup(keyboard)
   await update.message.reply_text("Propagation: Choose a continent", reply_markup=reply_markup)
@@ -380,8 +388,11 @@ async def continent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   `ConversationHandler.END` witch tell the conversationHandler that the conversation is over.
   """
   labels = {
-    'NA': "North America\n73 and good DXing",
-    'EU': "Europa\n73 and good DXing",
+    'EU': "Europa",
+    'NA': "North America",
+    'OC': "Oceania",
+    'AS': "Asia",
+    'AF': "Africa",
   }
   query = update.callback_query
   con = query.data.lstrip('@')
@@ -463,8 +474,12 @@ def main() -> int:
       START_ROUTES: [
         CallbackQueryHandler(north_america, pattern=r"^NA$"),
         CallbackQueryHandler(europe, pattern=r"^EU$"),
-        CallbackQueryHandler(continent, pattern=r"^@NA$"),
         CallbackQueryHandler(continent, pattern=r"^@EU$"),
+        CallbackQueryHandler(continent, pattern=r"^@NA$"),
+        CallbackQueryHandler(continent, pattern=r"^@OC$"),
+        CallbackQueryHandler(continent, pattern=r"^@SA$"),
+        CallbackQueryHandler(continent, pattern=r"^@AF$"),
+        CallbackQueryHandler(continent, pattern=r"^@AS$"),
         CallbackQueryHandler(cqzone, pattern=r"^\d+$"),
       ],
       INFO: [

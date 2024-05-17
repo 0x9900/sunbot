@@ -53,7 +53,7 @@ RESOURCES = {
     "The A index show the fluctuations in the magnetic field."
   ],
   "/dlayer": [
-    "https://bsdworld.org/d-rap/tn_latest.jpg",
+    "https://bsdworld.org/d-rap/latest.png",
     "D-Layer absorption."
   ],
   "/enlil": [
@@ -217,7 +217,7 @@ async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
   request = match.groupdict()
   resource = RESOURCES[request['cmd'].lower()]
-  if resource[0].endswith('.jpg'):
+  if resource[0].endswith('.jpg') or resource[0].endswith('.png'):
     url = f"{resource[0]}?s={rid()}"
     await message.reply_photo(url, caption=f"{resource[1]}{SOURCE}")
   elif resource[0].endswith('.mp4'):

@@ -44,13 +44,17 @@ logger = logging.getLogger(__name__)
 # Stages
 CONFIG_FILES = ("sunbot.conf", "~/.local/sunbot.conf", "/etc/sunbot.conf")
 START_ROUTES, INFO = 1, 2
-SOURCE = "\nMore information at https://bsdworld.org/"
+SOURCE = "\nMore @ https://bsdworld.org/"
 NOAA_URL = 'https://services.swpc.noaa.gov/'
 
 RESOURCES = {
   "/aindex": [
     "https://bsdworld.org/aindex.jpg",
     "The A index show the fluctuations in the magnetic field."
+  ],
+  "/dlayer": [
+    "https://bsdworld.org/d-rap/tn_latest.jpg",
+    "D-Layer absorption."
   ],
   "/enlil": [
     "https://bsdworld.org/enlil.mp4",
@@ -377,7 +381,7 @@ async def cqzone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   await query.answer()
   await query.message.reply_photo(
     f'https://bsdworld.org/DXCC/cqzone/{zone}/latest.webp?{rid()}',
-    caption=(f"Propagation for CQZone {zone}{SOURCE}")
+    caption=(f"CQZone {zone}{SOURCE}")
   )
   await query.edit_message_reply_markup(reply_markup=None)
   return ConversationHandler.END

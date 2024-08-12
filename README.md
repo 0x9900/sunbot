@@ -1,6 +1,8 @@
 # SunBot
 Sun activity and propagation bot for telegram.
 
+> For complete sun activity check [bsdworld.org](https://bsdworld.org/).
+
 This Telegram bot informs ham radio operators about solar weather, propagation, and amateur radio
 activity on HF bands.
 

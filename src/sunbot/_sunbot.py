@@ -97,7 +97,7 @@ RESOURCES = {
     "X-ray emissions from the Sun are primarily associated with solar flares."
   ],
   "/stats": [
-    "https://bsdworld.org/dxcc-stats-dark.png",
+    "https://bsdworld.org/dxcc-stats.png",
     "Activity statistics."
   ],
 }
@@ -384,7 +384,7 @@ async def cqzone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   logger.info("User %s CQZone%s", user.first_name, zone)
   await query.answer()
   await query.message.reply_photo(
-    f'https://bsdworld.org/DXCC/cqzone/{zone}/latest.webp?{rid()}',
+    f'https://bsdworld.org/DXCC/cqzone/{zone}/latest-dark.webp?{rid()}',
     caption=(f"CQZone {zone}{SOURCE}")
   )
   await query.edit_message_reply_markup(reply_markup=None)
@@ -406,7 +406,7 @@ async def continent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   con = query.data.lstrip('@')
   user = update.effective_user
   logger.info("User %s Continent %s", user.first_name, con)
-  url = f'https://bsdworld.org/DXCC/continent/{con}/latest.webp?{rid()}'
+  url = f'https://bsdworld.org/DXCC/continent/{con}/latest-dark.webp?{rid()}'
   await query.answer()
   await query.message.reply_photo(url, caption=f"{labels[con]}{SOURCE}")
   await query.edit_message_reply_markup(reply_markup=None)

@@ -49,7 +49,7 @@ NOAA_URL = 'https://services.swpc.noaa.gov/'
 
 RESOURCES = {
   "/aindex": [
-    "https://bsdworld.org/aindex.jpg",
+    "https://bsdworld.org/aindex.png",
     "The A index show the fluctuations in the magnetic field."
   ],
   "/dlanimation": [
@@ -65,15 +65,15 @@ RESOURCES = {
     "WSA-Enlil Solar Wind Prediction."
   ],
   "/flux": [
-    "https://bsdworld.org/flux.jpg",
+    "https://bsdworld.org/flux.png",
     "Solar radio flux at 10.7 cm (2800 MHz) is an indicator of solar activity."
   ],
   "/forecast": [
-    "https://bsdworld.org/pki-forecast.jpg",
+    "https://bsdworld.org/pki-forecast.png",
     "Recently observed and a three day forecast of space weather conditions."
   ],
   "/pkindex": [
-    "https://bsdworld.org/pkindex.jpg",
+    "https://bsdworld.org/pkindex.png",
     "Kp is an indicator of disturbances in the Earth's magnetic field."
   ],
   "/muf": [
@@ -81,23 +81,23 @@ RESOURCES = {
     "Show the maximum usable frequency."
   ],
   "/proton": [
-    "https://bsdworld.org/proton_flux.jpg",
+    "https://bsdworld.org/proton_flux.png",
     "Proton Flux is the number of high-energy protons coming from the Sun."
   ],
   "/sunspot": [
-    "https://bsdworld.org/ssn.jpg",
+    "https://bsdworld.org/ssn.png",
     "Daily index of sunspot activity."
   ],
   "/wind": [
-    "https://bsdworld.org/solarwind.jpg",
+    "https://bsdworld.org/solarwind.png",
     "Density, speed, and temperature of protons and electrons plasma."
   ],
   "/xray": [
-    "https://bsdworld.org/xray_flux.jpg",
+    "https://bsdworld.org/xray_flux.png",
     "X-ray emissions from the Sun are primarily associated with solar flares."
   ],
   "/stats": [
-    "https://bsdworld.org/dxcc-stats.jpg",
+    "https://bsdworld.org/dxcc-stats.png",
     "Activity statistics."
   ],
 }
@@ -168,7 +168,7 @@ def load_config() -> None:
         logger.warning("config error: %s", line)
 
 
-def rid(timeout: Optional[int] = 900) -> str:
+def rid(timeout: Optional[int] = 1800) -> str:
   """Generate an id that will change every 900 seconds"""
   _id = int(time.time() / 900)
   return str(_id)
@@ -221,7 +221,7 @@ async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
   request = match.groupdict()
   resource = RESOURCES[request['cmd'].lower()]
-  if resource[0].endswith('.jpg') or resource[0].endswith('.png'):
+  if resource[0].endswith('.png'):
     url = f"{resource[0]}?s={rid()}"
     await message.reply_photo(url, caption=f"{resource[1]}{SOURCE}")
   elif resource[0].endswith('.mp4'):

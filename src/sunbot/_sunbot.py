@@ -49,7 +49,7 @@ NOAA_URL = 'https://services.swpc.noaa.gov/'
 
 RESOURCES = {
   "/aindex": [
-    "https://bsdworld.org/aindex.png",
+    "https://bsdworld.org/aindex-dark.png",
     "The A index show the fluctuations in the magnetic field."
   ],
   "/dlanimation": [
@@ -57,7 +57,7 @@ RESOURCES = {
     "D-Layer absorption. (animation)"
   ],
   "/dlayer": [
-    "https://bsdworld.org/d-rap/latest.png",
+    "https://bsdworld.org/d-rap/latest-dark.png",
     "D-Layer absorption."
   ],
   "/enlil": [
@@ -65,15 +65,15 @@ RESOURCES = {
     "WSA-Enlil Solar Wind Prediction."
   ],
   "/flux": [
-    "https://bsdworld.org/flux.png",
+    "https://bsdworld.org/flux-dark.png",
     "Solar radio flux at 10.7 cm (2800 MHz) is an indicator of solar activity."
   ],
   "/forecast": [
-    "https://bsdworld.org/pki-forecast.png",
+    "https://bsdworld.org/pki-forecast-dark.png",
     "Recently observed and a three day forecast of space weather conditions."
   ],
   "/pkindex": [
-    "https://bsdworld.org/pkindex.png",
+    "https://bsdworld.org/pkindex-dark.png",
     "Kp is an indicator of disturbances in the Earth's magnetic field."
   ],
   "/muf": [
@@ -81,23 +81,23 @@ RESOURCES = {
     "Show the maximum usable frequency."
   ],
   "/proton": [
-    "https://bsdworld.org/proton_flux.png",
+    "https://bsdworld.org/proton_flux-dark.png",
     "Proton Flux is the number of high-energy protons coming from the Sun."
   ],
   "/sunspot": [
-    "https://bsdworld.org/ssn.png",
+    "https://bsdworld.org/ssn-dark.png",
     "Daily index of sunspot activity."
   ],
   "/wind": [
-    "https://bsdworld.org/solarwind.png",
+    "https://bsdworld.org/solarwind-dark.png",
     "Density, speed, and temperature of protons and electrons plasma."
   ],
   "/xray": [
-    "https://bsdworld.org/xray_flux.png",
+    "https://bsdworld.org/xray_flux-dark.png",
     "X-ray emissions from the Sun are primarily associated with solar flares."
   ],
   "/stats": [
-    "https://bsdworld.org/dxcc-stats.png",
+    "https://bsdworld.org/dxcc-stats-dark.png",
     "Activity statistics."
   ],
 }

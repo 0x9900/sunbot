@@ -53,7 +53,7 @@ RESOURCES = {
     "The A index show the fluctuations in the magnetic field."
   ],
   "/dlanimation": [
-    "https://bsdworld.org/d-rap/dlayer.mp4",
+    "https://bsdworld.org/d-rap/dlayer-dark.mp4",
     "D-Layer absorption. (animation)"
   ],
   "/dlayer": [

@@ -396,11 +396,12 @@ async def continent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
   `ConversationHandler.END` witch tell the conversationHandler that the conversation is over.
   """
   labels = {
+    'AF': "Africa",
+    'AS': "Asia",
     'EU': "Europa",
     'NA': "North America",
     'OC': "Oceania",
-    'AS': "Asia",
-    'AF': "Africa",
+    'SA': "South America",
   }
   query = update.callback_query
   con = query.data.lstrip('@')

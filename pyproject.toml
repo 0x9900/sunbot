@@ -13,7 +13,6 @@
   classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Telecommunications",
-    "License :: OSI Approved :: BSD License",
     "Operating System :: MacOS",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python",

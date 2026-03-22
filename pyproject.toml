@@ -6,7 +6,8 @@
   name = "sunbot"
   readme = "README.md"
   description = "Sun activity and propagation bot for telegram."
-  license = {text = "BSD"}
+  license = "BSD-3-Clause"
+  license-files = ["LICEN[CS]E"]
   authors = [
     { name = "Fred C." },
   ]

@@ -97,7 +97,7 @@ RESOURCES = {
     "X-ray emissions from the Sun are primarily associated with solar flares."
   ],
   "/stats": [
-    "https://bsdworld.org/dxcc-stats.png",
+    "https://bsdworld.org/dxcc-week-stats.jpg",
     "Activity statistics."
   ],
 }

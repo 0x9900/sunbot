@@ -145,6 +145,56 @@ def batched(iterable, batch_len):
     yield batch
 
 
+def extract_forecasts(text) -> dict:
+  """Extracts forecast sections from the given text."""
+  # Split the text into lines
+  section_patterns = [
+    'Solar Activity',
+    'Energetic Particle',
+    'Solar Wind',
+    'Geospace'
+  ]
+
+  lines = text.split('\n')
+
+  # Dictionary to store results
+  forecasts = {}
+
+  # Find all section headers (Solar Activity, Energetic Particle, etc.)
+  sections = []
+
+  for i, line in enumerate(lines):
+    if line and not line.startswith(' ') and not line.startswith('.') and not line.startswith('#'):
+      if any(keyword in line for keyword in section_patterns):
+        sections.append((line.strip(), i))
+
+  for section_name, start_idx in sections:
+    forecast_content = []
+    in_forecast = False
+
+    # Search from the section start to the end or next section
+    for j in range(start_idx + 1, len(lines)):
+      line = lines[j]
+
+      next_sections = [s[0] for s in sections if s[1] > start_idx]
+      if next_sections and any(next_section in line for next_section in next_sections):
+        break
+
+      # Look for the .Forecast... marker
+      if '.Forecast...' in line:
+        in_forecast = True
+        continue
+
+      if in_forecast:
+        if line := line.strip():
+          forecast_content.append(line)
+
+    if forecast_content:
+      forecasts[section_name] = ' '.join(forecast_content)
+
+  return forecasts
+
+
 def load_config() -> None:
   """load token and developer_id from the config file"""
   for file_name in CONFIG_FILES:
@@ -194,19 +244,15 @@ async def text_forecast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
   url = urljoin(NOAA_URL, '/text/discussion.txt')
   cache_file = '/tmp/discussion.txt'
   await load_cache_file(url, cache_file, 3600*4)
-  forecast = []
-  flag = 0
   async with aiofiles.open(cache_file, mode='r', encoding="utf-8") as fdin:
-    async for line in fdin:
-      line = line.strip()
-      if line.startswith('.Forecast'):
-        flag = 1
-        continue
-      if flag and not line:
-        break
-      if flag:
-        forecast.append(line)
-  await update.message.reply_text(' '.join(forecast))
+    forecasts = extract_forecasts(await fdin.read())
+
+  lines = []
+  for section, forecast in forecasts.items():
+    lines.append(f"*{section}:*\n")
+    lines.append(f"{forecast}\n\n")
+
+  await update.message.reply_text(' '.join(lines), parse_mode="Markdown")
 
 
 async def send_graph(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

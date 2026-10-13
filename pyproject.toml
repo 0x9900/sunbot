@@ -29,6 +29,16 @@
   dynamic = ["version"]
 
 
+[project.optional-dependencies]
+  dev = [
+      "build",
+      "flake8",
+      "isort",
+      "mypy",
+      "pre-commit",
+      "pylint",
+  ]
+
 [project.urls]
   Documentation = "https://github.com/0x9900/sunbot/"
   Source = "https://github.com/0x9900/sunbot"
